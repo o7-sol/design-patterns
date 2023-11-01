@@ -13,6 +13,11 @@ use Design\Pattern\Strategy\DieselCar;
 use Design\Pattern\Strategy\DieselCalculator;
 use Design\Pattern\Strategy\PetrolCar;
 use Design\Pattern\Strategy\PetrolCalculator;
+use Design\Pattern\Singleton\Config;
+use Design\Pattern\Singleton\Properties;
+use Design\Pattern\Prototype\FurnitureFactory;
+use Design\Pattern\Prototype\Chair\WoodenChair;
+use Design\Pattern\Prototype\Table\WoodenTable;
 
 // Factory Method:
 // Pass payment type to create payment instance and pay with it
@@ -47,3 +52,22 @@ $petrolCar = new PetrolCar(new PetrolCalculator());
 
 echo 'Diesel cost: ' . $dieselCar->costMileage(425);
 echo 'Petrol cost: ' . $petrolCar->costMileage(352);
+echo "<br/><br/>";
+
+//Singleton
+$config = Config::getInstance();
+$config->setProp('test', 'testValue');
+
+$config = Config::getInstance();
+echo $config->getProp('test') . PHP_EOL;; // returns testValue
+
+$properties = Properties::getInstance();
+$properties->setProp('test', 'anotherTest');
+$properties = Properties::getInstance();
+echo $properties->getProp('test') . PHP_EOL; // return anotherTest
+echo "<br/><br/>";
+
+//Prototype
+$furnitureFactory = new FurnitureFactory(new WoodenChair(), new WoodenTable());
+print_r($furnitureFactory->getChair());
+print_r($furnitureFactory->getTable());
