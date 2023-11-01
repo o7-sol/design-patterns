@@ -18,6 +18,9 @@ use Design\Pattern\Singleton\Properties;
 use Design\Pattern\Prototype\FurnitureFactory;
 use Design\Pattern\Prototype\Chair\WoodenChair;
 use Design\Pattern\Prototype\Table\WoodenTable;
+use Design\Pattern\Composite\AdsBoard;
+use Design\Pattern\Composite\Flat;
+use Design\Pattern\Composite\House;
 
 // Factory Method:
 // Pass payment type to create payment instance and pay with it
@@ -50,7 +53,7 @@ echo "<br/><br/>";
 $dieselCar = new DieselCar(new DieselCalculator());
 $petrolCar = new PetrolCar(new PetrolCalculator());
 
-echo 'Diesel cost: ' . $dieselCar->costMileage(425);
+echo 'Diesel cost: ' . $dieselCar->costMileage(425) . PHP_EOL;
 echo 'Petrol cost: ' . $petrolCar->costMileage(352);
 echo "<br/><br/>";
 
@@ -71,3 +74,28 @@ echo "<br/><br/>";
 $furnitureFactory = new FurnitureFactory(new WoodenChair(), new WoodenTable());
 print_r($furnitureFactory->getChair());
 print_r($furnitureFactory->getTable());
+echo "<br/><br/>";
+
+//Composite
+$adsBoard = new AdsBoard();
+$adsBoard->addRentalUnit(new Flat());
+$adsBoard->addRentalUnit(new House());
+$adsBoard->addRentalUnit(new Flat());
+$adsBoard->addRentalUnit(new House());
+
+echo $adsBoard->getRentalUnitsCount();
+
+$newFlat = new Flat();
+$adsBoard->addRentalUnit($newFlat);
+$adsBoard->removeRentalUnit($newFlat);
+
+echo $adsBoard->getRentalUnitsCount();
+
+$globalAdsBoard = new $adsBoard();
+$globalAdsBoard->addRentalUnit($adsBoard);
+$globalAdsBoard->addRentalUnit(new Flat());
+$globalAdsBoard->addRentalUnit(new Flat());
+$globalAdsBoard->addRentalUnit(new Flat());
+$globalAdsBoard->addRentalUnit(new Flat());
+
+print_r($globalAdsBoard->getRentalUnits());
